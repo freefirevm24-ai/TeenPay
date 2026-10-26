@@ -1,0 +1,245 @@
+type WalletSummary = 
+ record {
+   balance: Amount;
+   transactionCount: nat;
+ };
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserId = principal;
+type TransferError = 
+ variant {
+   cannotSendToSelf;
+   insufficientBalance: record {balance: Amount;};
+   invalidAmount;
+   recipientNotFound;
+ };
+type Transaction = 
+ record {
+   amount: Amount;
+   counterparty: UserId;
+   counterpartyName: text;
+   direction: Direction;
+   id: nat;
+   note: text;
+   timestamp: Timestamp;
+ };
+type Timestamp = int;
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type RequestStatus = 
+ variant {
+   accepted;
+   declined;
+   pending;
+ };
+type RequestError = 
+ variant {
+   alreadyResolved;
+   insufficientBalance: record {balance: Amount;};
+   notFound;
+   notRecipient;
+ };
+type ProfileView = 
+ record {
+   classSection: text;
+   fullName: text;
+   instagramId: text;
+   rollNumber: nat;
+   userId: UserId;
+ };
+type ProfileInput = 
+ record {
+   classSection: text;
+   fullName: text;
+   instagramId: text;
+   rollNumber: nat;
+ };
+type Profile = 
+ record {
+   classSection: text;
+   createdAt: Timestamp;
+   fullName: text;
+   instagramId: text;
+   rollNumber: nat;
+   startingBalance: Amount;
+ };
+type MoneyRequest = 
+ record {
+   amount: Amount;
+   createdAt: Timestamp;
+   fromName: text;
+   fromUser: UserId;
+   id: nat;
+   note: text;
+   status: RequestStatus;
+   toUser: UserId;
+ };
+type LeaderboardEntry = 
+ record {
+   balance: Amount;
+   fullName: text;
+   instagramId: text;
+   rank: nat;
+   userId: UserId;
+ };
+type FriendSearchResult = 
+ record {
+   fullName: text;
+   instagramId: text;
+   userId: UserId;
+ };
+type Friend = 
+ record {
+   addedAt: Timestamp;
+   balance: Amount;
+   fullName: text;
+   instagramId: text;
+   userId: UserId;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type Direction = 
+ variant {
+   received;
+   sent;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+type CardInput = 
+ record {
+   background: text;
+   logo: text;
+   stickers: vec text;
+   title: text;
+ };
+type Card = 
+ record {
+   background: text;
+   logo: text;
+   stickers: vec text;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type Amount = nat;
+type AddFriendError = 
+ variant {
+   alreadyFriend;
+   cannotAddSelf;
+   notFound;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  /// Accepts a pending request, transferring money from the caller to the requester.
+  acceptRequest: (requestId: nat) ->
+   (variant {
+      err: RequestError;
+      ok: Transaction;
+    });
+  /// Adds a friend to the caller's list.
+  addFriend: (friend: UserId) -> (variant {
+                                    err: AddFriendError;
+                                    ok: Friend;
+                                  });
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  /// Creates the caller's profile on first onboarding with a starting balance.
+  createCallerProfile: (input: ProfileInput, startingBalance: Amount) ->
+   (Profile);
+  /// Declines a pending request addressed to the caller.
+  declineRequest: (requestId: nat) -> (variant {
+                                         err: RequestError;
+                                         ok;
+                                       });
+  execute: (qJson: text) -> (Result) query;
+  /// Static behavioral documentation for the backend API.
+  getApiDoc: () -> (text) query;
+  /// Returns the caller's current fake balance.
+  getBalance: () -> (Amount) query;
+  /// Returns the caller's onboarding profile, or null when not yet onboarded.
+  getCallerProfile: () -> (opt Profile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  /// Ranks all users by fake balance, highest first.
+  getLeaderboard: () -> (vec LeaderboardEntry) query;
+  /// Returns the caller's saved card, or null when none exists.
+  getMyCard: () -> (opt Card) query;
+  /// Returns the caller's personal QR payload that others can scan.
+  getMyQrPayload: () -> (text) query;
+  /// Returns another user's public profile view.
+  getUserProfile: (user: UserId) -> (opt ProfileView) query;
+  /// Returns the caller's wallet summary (balance and transaction count).
+  getWalletSummary: () -> (WalletSummary) query;
+  isCallerAdmin: () -> (bool) query;
+  /// Lists the caller's friends with their current balances.
+  listFriends: () -> (vec Friend) query;
+  /// Lists pending money requests addressed to the caller.
+  listIncomingRequests: () -> (vec MoneyRequest) query;
+  /// Lists money requests the caller has sent.
+  listOutgoingRequests: () -> (vec MoneyRequest) query;
+  /// Returns the caller's transaction history, newest first.
+  listTransactions: () -> (vec Transaction) query;
+  /// Removes a friend from the caller's list.
+  removeFriend: (friend: UserId) -> (bool);
+  /// Requests virtual money from a friend.
+  requestMoney: (fromUser: UserId, amount: Amount, note: text) ->
+   (MoneyRequest);
+  /// Resolves a scanned QR payload to a user that can be added as a friend.
+  resolveFriendQr: (payload: text) -> (opt FriendSearchResult) query;
+  /// Creates or replaces the caller's card.
+  saveMyCard: (input: CardInput) -> (Card);
+  schema: () -> (text) query;
+  /// Searches for a user by username to add as a friend.
+  searchFriendByUsername: (username: text) -> (opt FriendSearchResult) query;
+  /// Sends virtual money to a friend with a fun note.
+  sendMoney: (recipient: UserId, amount: Amount, note: text) ->
+   (variant {
+      err: TransferError;
+      ok: Transaction;
+    });
+  /// Updates the editable fields of the caller's profile.
+  updateCallerProfile: (input: ProfileInput) -> (opt Profile);
+}

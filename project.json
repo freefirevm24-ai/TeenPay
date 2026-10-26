@@ -1,0 +1,22 @@
+{
+  "overview": "A fun, virtual-only money app where friends send each other fake rupees with funny notes, soundbox voice alerts, custom cards, and a leaderboard.",
+  "features": [
+    "Sign-up onboarding with name, class and section, roll number, and Instagram ID",
+    "Virtual wallet with a custom starting fake balance",
+    "Add friends by username or QR code",
+    "Send and request fake money with fun notes",
+    "Cash-register sound and voice announcement on receiving money",
+    "Custom virtual debit card creator with neon styles and stickers",
+    "QR scanner for instant tap-to-pay",
+    "Dark glassmorphism design with confetti and a fake-money leaderboard"
+  ],
+  "category": "social-game",
+  "tags": [
+    "fun",
+    "social",
+    "virtual-currency",
+    "gen-z",
+    "game"
+  ],
+  "last_updated": "2026-10-26T20:33:24.775Z"
+}

@@ -1,0 +1,180 @@
+// Version: 4.0.0
+type AccessControlState__201339279 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__91647283>
+  };
+type Amount__460182544 = Nat;
+type Amount__655108737 = Nat;
+type Card__103730850 =
+  {
+    background : Text;
+    logo : Text;
+    stickers : [Text];
+    title : Text;
+    updatedAt : Timestamp__301639476
+  };
+type Card__954494206 =
+  {
+    background : Text;
+    logo : Text;
+    stickers : [Text];
+    title : Text;
+    updatedAt : Timestamp__771871407
+  };
+type Data__44217153<K, V> = {var count : Nat__227979830; kvs : [var ?(K, V)]};
+type Data__846125122<T> = {var count : Nat__227979830; elements : [var ?T]};
+type Direction__41534341 = {#received; #sent};
+type Direction__865107008 = {#received; #sent};
+type Internal__23036296<T> =
+  {children : [var ?Node__620761243<T>]; data : Data__846125122<T>};
+type Internal__283199666<K, V> =
+  {children : [var ?Node__204828119<K, V>]; data : Data__44217153<K, V>};
+type Leaf__598469445<K, V> = {data : Data__44217153<K, V>};
+type Leaf__948582970<T> = {data : Data__846125122<T>};
+type List__355132335<T> =
+  {
+    var blockIndex : Nat__227979830;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__227979830
+  };
+type List__836382695<T> = List__355132335<T>;
+type Map__230067015<K, V> = Map__405889023<K, V>;
+type Map__405889023<K, V> = Map__603270868<K, V>;
+type Map__603270868<K, V> =
+  {var root : Node__204828119<K, V>; var size : Nat__227979830};
+type MoneyRequest__309328070 =
+  {
+    amount : Amount__655108737;
+    createdAt : Timestamp__771871407;
+    fromName : Text;
+    fromUser : UserId__39544917;
+    id : Nat;
+    note : Text;
+    status : RequestStatus__539847420;
+    toUser : UserId__39544917
+  };
+type MoneyRequest__647097575 =
+  {
+    amount : Amount__460182544;
+    createdAt : Timestamp__301639476;
+    fromName : Text;
+    fromUser : UserId__158757552;
+    id : Nat;
+    note : Text;
+    status : RequestStatus__79542811;
+    toUser : UserId__158757552
+  };
+type Nat__227979830 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__769816496 =
+  {
+    accessControlState : AccessControlState__201339279;
+    balances : Map__230067015<UserId__39544917, Amount__655108737>;
+    cards : Map__230067015<UserId__39544917, Card__954494206>;
+    counters : {var nextRequestId : Nat; var nextTxId : Nat};
+    friends :
+      Map__230067015<UserId__39544917, Set__70493310<UserId__39544917>>;
+    history :
+      Map__230067015<UserId__39544917,
+                      List__836382695<Transaction__766302693>>;
+    profiles : Map__230067015<UserId__39544917, Profile__529753200>;
+    requests : Map__230067015<Nat, MoneyRequest__309328070>
+  };
+type Node__204828119<K, V> =
+  {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
+type Node__620761243<T> =
+  {#internal : Internal__23036296<T>; #leaf : Leaf__948582970<T>};
+type OldActor__512397517 = {};
+type Profile__529753200 =
+  {
+    classSection : Text;
+    createdAt : Timestamp__771871407;
+    fullName : Text;
+    instagramId : Text;
+    rollNumber : Nat;
+    startingBalance : Amount__655108737
+  };
+type Profile__901378260 =
+  {
+    classSection : Text;
+    createdAt : Timestamp__301639476;
+    fullName : Text;
+    instagramId : Text;
+    rollNumber : Nat;
+    startingBalance : Amount__460182544
+  };
+type RequestStatus__539847420 = {#accepted; #declined; #pending};
+type RequestStatus__79542811 = {#accepted; #declined; #pending};
+type Set__1053317950<T> =
+  {var root : Node__620761243<T>; var size : Nat__227979830};
+type Set__70493310<T> = Set__1053317950<T>;
+type Timestamp__301639476 = Int;
+type Timestamp__771871407 = Int;
+type Transaction__15087323 =
+  {
+    amount : Amount__460182544;
+    counterparty : UserId__158757552;
+    counterpartyName : Text;
+    direction : Direction__41534341;
+    id : Nat;
+    note : Text;
+    timestamp : Timestamp__301639476
+  };
+type Transaction__766302693 =
+  {
+    amount : Amount__655108737;
+    counterparty : UserId__39544917;
+    counterpartyName : Text;
+    direction : Direction__865107008;
+    id : Nat;
+    note : Text;
+    timestamp : Timestamp__771871407
+  };
+type UserId__158757552 = Principal;
+type UserId__39544917 = Principal;
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "00000000_000000" : OldActor__512397517 -> NewActor__769816496
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__230067015<Principal, UserRole__91647283>
+    };
+  stable balances :
+    {
+      var root : Node__204828119<UserId__158757552, Amount__460182544>;
+      var size : Nat__227979830
+    };
+  stable cards :
+    {
+      var root : Node__204828119<UserId__158757552, Card__103730850>;
+      var size : Nat__227979830
+    };
+  stable counters : {var nextRequestId : Nat; var nextTxId : Nat};
+  stable friends :
+    {
+      var root :
+        Node__204828119<UserId__158757552, Set__70493310<UserId__158757552>>;
+      var size : Nat__227979830
+    };
+  stable history :
+    {
+      var root :
+        Node__204828119<UserId__158757552,
+                         List__836382695<Transaction__15087323>>;
+      var size : Nat__227979830
+    };
+  stable profiles :
+    {
+      var root : Node__204828119<UserId__158757552, Profile__901378260>;
+      var size : Nat__227979830
+    };
+  stable requests :
+    {
+      var root : Node__204828119<Nat, MoneyRequest__647097575>;
+      var size : Nat__227979830
+    }
+};

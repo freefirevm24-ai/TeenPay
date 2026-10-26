@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: "Bricolage Grotesque", sans-serif;
+    --font-body: "Plus Jakarta Sans", sans-serif;
+    --font-mono: "Geist Mono", monospace;
+    --radius: 1.125rem;
+
+    /* Neon Vault — dark-first. Light tokens kept for completeness. */
+    --background: 0.97 0.01 320;
+    --foreground: 0.16 0.02 320;
+    --card: 1.0 0.005 320;
+    --card-foreground: 0.16 0.02 320;
+    --popover: 1.0 0.005 320;
+    --popover-foreground: 0.16 0.02 320;
+
+    --primary: 0.62 0.26 340;
+    --primary-foreground: 0.99 0.005 340;
+
+    --secondary: 0.94 0.02 320;
+    --secondary-foreground: 0.28 0.03 320;
+    --muted: 0.94 0.02 320;
+    --muted-foreground: 0.5 0.02 320;
+
+    --accent: 0.82 0.22 130;
+    --accent-foreground: 0.16 0.03 130;
+
+    --destructive: 0.58 0.24 22;
+    --destructive-foreground: 0.99 0.005 22;
+
+    --success: 0.78 0.2 145;
+    --warning: 0.82 0.16 82;
+
+    --border: 0.9 0.015 320;
+    --input: 0.9 0.015 320;
+    --ring: 0.62 0.26 340;
+
+    --chart-1: 0.68 0.25 340;
+    --chart-2: 0.82 0.22 130;
+    --chart-3: 0.8 0.17 82;
+    --chart-4: 0.7 0.2 300;
+    --chart-5: 0.72 0.18 210;
+
+    --sidebar: 0.99 0.005 320;
+    --sidebar-foreground: 0.16 0.02 320;
+    --sidebar-primary: 0.62 0.26 340;
+    --sidebar-primary-foreground: 0.99 0.005 340;
+    --sidebar-accent: 0.94 0.02 320;
+    --sidebar-accent-foreground: 0.28 0.03 320;
+    --sidebar-border: 0.9 0.015 320;
+    --sidebar-ring: 0.62 0.26 340;
+
+    /* Gradient + depth tokens */
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.62 0.26 340),
+      oklch(0.68 0.24 305)
+    );
+    --gradient-cash: linear-gradient(
+      135deg,
+      oklch(0.82 0.22 130),
+      oklch(0.8 0.17 82)
+    );
+    --gradient-glass: linear-gradient(
+      160deg,
+      oklch(1 0 0 / 0.08),
+      oklch(1 0 0 / 0.02)
+    );
+    --glass-bg: oklch(1 0 0 / 0.06);
+    --glass-border: oklch(1 0 0 / 0.12);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-pop: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .dark {
+    --background: 0.15 0.03 315;
+    --foreground: 0.96 0.01 320;
+    --card: 0.2 0.035 315;
+    --card-foreground: 0.96 0.01 320;
+    --popover: 0.22 0.04 315;
+    --popover-foreground: 0.96 0.01 320;
+
+    --primary: 0.68 0.26 340;
+    --primary-foreground: 0.15 0.03 340;
+
+    --secondary: 0.26 0.04 315;
+    --secondary-foreground: 0.9 0.01 320;
+    --muted: 0.26 0.04 315;
+    --muted-foreground: 0.68 0.02 320;
+
+    --accent: 0.85 0.22 130;
+    --accent-foreground: 0.16 0.04 130;
+
+    --destructive: 0.66 0.23 22;
+    --destructive-foreground: 0.15 0.03 22;
+
+    --success: 0.82 0.2 145;
+    --warning: 0.84 0.16 82;
+
+    --border: 0.32 0.04 315;
+    --input: 0.32 0.04 315;
+    --ring: 0.68 0.26 340;
+
+    --chart-1: 0.68 0.26 340;
+    --chart-2: 0.85 0.22 130;
+    --chart-3: 0.84 0.16 82;
+    --chart-4: 0.72 0.22 300;
+    --chart-5: 0.74 0.18 210;
+
+    --sidebar: 0.18 0.035 315;
+    --sidebar-foreground: 0.96 0.01 320;
+    --sidebar-primary: 0.68 0.26 340;
+    --sidebar-primary-foreground: 0.15 0.03 340;
+    --sidebar-accent: 0.26 0.04 315;
+    --sidebar-accent-foreground: 0.9 0.01 320;
+    --sidebar-border: 0.32 0.04 315;
+    --sidebar-ring: 0.68 0.26 340;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.68 0.26 340),
+      oklch(0.72 0.24 305)
+    );
+    --gradient-cash: linear-gradient(
+      135deg,
+      oklch(0.85 0.22 130),
+      oklch(0.84 0.16 82)
+    );
+    --gradient-glass: linear-gradient(
+      160deg,
+      oklch(1 0 0 / 0.1),
+      oklch(1 0 0 / 0.02)
+    );
+    --glass-bg: oklch(1 0 0 / 0.06);
+    --glass-border: oklch(1 0 0 / 0.14);
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  .transition-pop {
+    transition: var(--transition-pop);
+  }
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+  .glass-strong {
+    background: linear-gradient(
+      160deg,
+      oklch(1 0 0 / 0.12),
+      oklch(1 0 0 / 0.03)
+    );
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+  }
+  .gradient-primary {
+    background-image: var(--gradient-primary);
+  }
+  .gradient-cash {
+    background-image: var(--gradient-cash);
+  }
+  .text-gradient-primary {
+    background-image: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-cash {
+    background-image: var(--gradient-cash);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
